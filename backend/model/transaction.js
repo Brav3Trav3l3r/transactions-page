@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const productSchema = new mongoose.Schema({
+const transactionSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -28,6 +28,6 @@ const productSchema = new mongoose.Schema({
   dateOfSale: Date
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Transaction = mongoose.model('Transaction', transactionSchema);
 
-module.exports = Product;
+module.exports = Transaction;

@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const globalErrorHandler = require('./controller/errorController');
+const AppError = require('./utils/AppError');
+const transactionRouter = require('./router/transactionRouter');
 
 const app = express();
 
@@ -11,6 +14,8 @@ app.use(morgan('dev'));
 app.get('/', function(req, res) {
   console.log('Welcome to roxiler sales backend api');
 });
+
+app.use('/transactions', transactionRouter);
 
 app.all('*', (req, res, next) => {
   throw new AppError('Route does not exists', 404);
