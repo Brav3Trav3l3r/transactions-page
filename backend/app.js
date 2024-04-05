@@ -12,7 +12,7 @@ app.use(cors());
 app.use(morgan('dev'));
 
 app.get('/', function(req, res) {
-  console.log('Welcome to roxiler sales backend api');
+  res.send('Welcome to roxiler sales backend api');
 });
 
 app.use('/transactions', transactionRouter);
