@@ -37,7 +37,7 @@ export default function TransactionTable(props: TransactionTableProps) {
       if (error instanceof Error) {
         throw new Error(error.message);
       }
-      throw new Error("Something went wrong"); 
+      throw new Error("Something went wrong");
     }
   };
 
@@ -60,32 +60,38 @@ export default function TransactionTable(props: TransactionTableProps) {
     return <span>Error: {error.message}</span>;
   }
 
-  console.log(data.data);
-
   return (
     <div className="border">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px] border">ID</TableHead>
-            <TableHead className="text-center border">Title</TableHead>
-            <TableHead className="text-center border">Description</TableHead>
-            <TableHead className="text-center border">Price</TableHead>
-            <TableHead className="text-center border">Category</TableHead>
-            <TableHead className="text-center border">Sold</TableHead>
-            <TableHead className="text-center border">Images</TableHead>
+            <TableHead className="text-center w-[100px]">ID</TableHead>
+            <TableHead className="text-center">Title</TableHead>
+            <TableHead className="text-center ">Description</TableHead>
+            <TableHead className="text-center">Price</TableHead>
+            <TableHead className="text-center">Category</TableHead>
+            <TableHead className="text-center">Sold</TableHead>
+            <TableHead className="text-center">Images</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.data.transactions.map((el: Transaction) => (
             <TableRow>
-              <TableCell className="font-medium">{el.id}</TableCell>
-              <TableCell className="text-center">{el.title}</TableCell>
-              <TableCell className="text-center">{el.description}</TableCell>
-              <TableCell className="text-center">{el.price}</TableCell>
+              <TableCell className="text-center font-medium">{el.id}</TableCell>
+              <TableCell className="text-center max-w-prose">
+                {el.title}
+              </TableCell>
+              <TableCell className="text-center max-w-prose ">
+                {el.description}
+              </TableCell>
+              <TableCell className="text-center">
+                {el.price.toFixed(2)}
+              </TableCell>
               <TableCell className="text-center">{el.category}</TableCell>
-              <TableCell className="text-center">{el.sold}</TableCell>
-              <TableCell className="text-center">{el.image}</TableCell>
+              <TableCell className="text-center">{`${el.sold}`}</TableCell>
+              <TableCell className="max-w-[200px]">
+                <img src={el.image} alt="" className="object-contain" />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -96,7 +102,12 @@ export default function TransactionTable(props: TransactionTableProps) {
               <div className="flex justify-between items-center">
                 <p>Page no. {props.page}</p>
                 <div className="flex gap-4">
-                  <Button onClick={() => props.handlePage("prev")}>Prev</Button>
+                  <Button
+                    disabled={props.page === 1}
+                    onClick={() => props.handlePage("prev")}
+                  >
+                    Prev
+                  </Button>
                   <Button onClick={() => props.handlePage("next")}>Next</Button>
                 </div>
                 <p>Page no. {props.perPage}</p>

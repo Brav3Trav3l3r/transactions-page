@@ -1,4 +1,6 @@
 import { useState } from "react";
+import BarStats from "./BarStats";
+import Statistics from "./Statistics";
 import TransactionTable from "./TransactionTable";
 import { Input } from "./ui/input";
 import {
@@ -26,14 +28,14 @@ const months = [
 ];
 
 export default function Transactions() {
-  const [month, setMonth] = useState(months[2]);
+  const [month, setMonth] = useState(months[3]);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [search, setSearch] = useState("");
 
   const handlePage = (action: "prev" | "next") => {
     console.log(action);
-    if (action == "prev" && page > 0) {
+    if (action == "prev" && page > 1) {
       setPage((prev) => prev - 1);
     } else if (action == "next") {
       setPage((next) => next + 1);
@@ -76,6 +78,10 @@ export default function Transactions() {
         perPage={perPage}
         search={search}
       />
+
+      <Statistics month={month} />
+
+      <BarStats month={month} />
     </div>
   );
 }

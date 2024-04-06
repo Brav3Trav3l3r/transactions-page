@@ -35,12 +35,12 @@ exports.getMonthlyStats = catchAsync(async (req, res, next) => {
   const stats = await Transaction.aggregate([
     {
       $addFields: {
-        month: { $month: '$dateOfSale' }
+        selectedMonth: { $month: '$dateOfSale' }
       }
     },
     {
       $match: {
-        month: Number(month)
+        selectedMonth: Number(month)
       }
     },
     {
@@ -71,48 +71,63 @@ exports.getMonthlyStats = catchAsync(async (req, res, next) => {
   });
 });
 
+function categorizeTransactions(transactions) {
+  const ranges = [
+    { range: '0-100', count: 0 },
+    { range: '101-200', count: 0 },
+    { range: '201-300', count: 0 },
+    { range: '301-400', count: 0 },
+    { range: '401-500', count: 0 },
+    { range: '501-600', count: 0 },
+    { range: '601-700', count: 0 },
+    { range: '701-800', count: 0 },
+    { range: '801-900', count: 0 },
+    { range: '901-above', count: 0 }
+  ];
+
+  // Iterate through transactions and categorize them based on price ranges
+  transactions.forEach(transaction => {
+    const { price } = transaction;
+    if (price >= 0 && price <= 100) {
+      ranges[0].count += 1;
+    } else if (price >= 101 && price <= 200) {
+      ranges[1].count += 1;
+    } else if (price >= 201 && price <= 300) {
+      ranges[2].count += 1;
+    } else if (price >= 301 && price <= 400) {
+      ranges[3].count += 1;
+    } else if (price >= 401 && price <= 500) {
+      ranges[4].count += 1;
+    } else if (price >= 501 && price <= 600) {
+      ranges[5].count += 1;
+    } else if (price >= 601 && price <= 700) {
+      ranges[6].count += 1;
+    } else if (price >= 701 && price <= 800) {
+      ranges[7].count += 1;
+    } else if (price >= 801 && price <= 900) {
+      ranges[8].count += 1;
+    } else {
+      ranges[9].count += 1;
+    }
+  });
+
+  return ranges;
+}
+
 exports.getPriceRange = catchAsync(async (req, res, next) => {
   const { month } = req.query;
 
-  const priceRanges = [
-    { min: 0, max: 100 },
-    { min: 101, max: 200 },
-    { min: 201, max: 300 },
-    { min: 301, max: 400 },
-    { min: 401, max: 500 },
-    { min: 501, max: 600 },
-    { min: 601, max: 700 },
-    { min: 701, max: 800 },
-    { min: 801, max: 900 },
-    { min: 901, max: 1000 }
-  ];
+  const monthlySales = await axios.get(
+    `${process.env.BASE_URL}/transactions?month=${month}`
+  );
 
-  const itemsRange = await Transaction.aggregate([
-    {
-      $addFields: {
-        month: { $month: '$dateOfSale' }
-      }
-    },
-    {
-      $match: {
-        month: Number(month)
-      }
-    },
-    {
-      $bucket: {
-        groupBy: '$price',
-        boundaries: priceRanges.map(range => range.min),
-        default: 'Other',
-        output: {
-          count: { $sum: 1 }
-        }
-      }
-    }
-  ]);
+  const categorizedTransactions = categorizeTransactions(
+    monthlySales.data.data.transactions
+  );
 
   res.status(200).json({
     status: 'success',
-    data: { itemsRange }
+    data: { ranges: categorizedTransactions }
   });
 });
 
