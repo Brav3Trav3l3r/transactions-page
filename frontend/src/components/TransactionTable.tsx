@@ -1,16 +1,15 @@
 import { Transaction } from "@/types/Transaction";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "./ui/button";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { useQuery } from "@tanstack/react-query";
-import { Button } from "./ui/button";
 
 interface TransactionTableProps {
   month: { name: string; value: number };
