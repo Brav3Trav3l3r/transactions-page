@@ -13,10 +13,14 @@ process.on('uncaughtException', err => {
 const app = require('../app');
 
 console.log(process.env.MONGODB_URI);
+console.log(process.env.NODE_ENV);
 
-mongoose.connect(process.env.MONGODB_URI).then(() => {
-  console.log('✅ Connected to database');
-});
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('✅ Connected to database');
+  })
+  .catch(err => console.log(err));
 
 const server = app.listen(port, () => {
   console.log(`listening on port ${port}`);

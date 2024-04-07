@@ -1,4 +1,3 @@
-const _ = require('lodash/cloneDeep');
 const AppError = require('../utils/AppError');
 
 const handleDuplicateError = (err, req, res) => {
@@ -48,7 +47,10 @@ module.exports = (err, req, res, next) => {
   err.status = `${err.statusCode}`.startsWith('4') ? 'fail' : 'error';
 
   if (process.env.NODE_ENV.trim() === 'production') {
-    let error = _.cloneDeep(err);
+    let error = Object.create(
+      Object.getPrototypeOf(err),
+      Object.getOwnPropertyDescriptors(err)
+    );
 
     if (error.code === 11000) {
       return handleDuplicateError(error, req, res);
