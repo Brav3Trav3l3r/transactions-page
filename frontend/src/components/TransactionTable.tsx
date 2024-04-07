@@ -59,18 +59,24 @@ export default function TransactionTable(props: TransactionTableProps) {
     return <span>Error: {error.message}</span>;
   }
 
+  console.log(data.data.transactions);
+
   return (
     <div className="border">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="text-center w-[100px]">ID</TableHead>
-            <TableHead className="text-center">Title</TableHead>
-            <TableHead className="text-center ">Description</TableHead>
-            <TableHead className="text-center">Price</TableHead>
-            <TableHead className="text-center">Category</TableHead>
-            <TableHead className="text-center">Sold</TableHead>
-            <TableHead className="text-center">Images</TableHead>
+            <TableHead className="text-center w-[100px] font-bold">ID</TableHead>
+            <TableHead className="text-center font-bold">Title</TableHead>
+            <TableHead className="text-center font-bold ">
+              Description
+            </TableHead>
+            <TableHead className="text-center font-bold">Price</TableHead>
+            <TableHead className="text-center font-bold">
+              Category
+            </TableHead>
+            <TableHead className="text-center font-bold">Sold</TableHead>
+            <TableHead className="text-center font-bold">Images</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

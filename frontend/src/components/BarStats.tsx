@@ -60,8 +60,8 @@ export default function BarStats({ month }: { month: Month }) {
   }
 
   return (
-    <div className="mt-8">
-      <p>Bar chart stats - {month.name} </p>
+    <div className="mt-8 border p-4">
+      <p className="text-xl font-bold">Bar chart stats - {month.name} </p>
       <ResponsiveContainer height={300} width={"100%"} className="mt-8">
         <BarChart data={data.data.ranges}>
           <XAxis dataKey="range" padding={{ left: 30, right: 30 }} />

@@ -44,7 +44,7 @@ export default function Statistics(props: { month: Month }) {
 
   return (
     <div className="border mt-8 max-w-[300px] p-4">
-      <p>Statistics for {props.month.name}</p>
+      <p className="text-xl font-bold mb-4">Statistics for {props.month.name}</p>
 
       <div className="flex justify-between">
         <p>Total Sale</p>

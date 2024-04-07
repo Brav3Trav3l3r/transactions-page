@@ -46,6 +46,7 @@ export default function Transactions() {
     <div className="">
       <div className="flex justify-between mb-6">
         <Input
+          placeholder="Search"
           className="max-w-96 border"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
